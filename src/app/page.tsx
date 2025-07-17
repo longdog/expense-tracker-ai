@@ -4,13 +4,15 @@ import { useState, useEffect } from 'react';
 import SummaryCards from '@/components/Dashboard/SummaryCards';
 import ExpenseChart from '@/components/Dashboard/ExpenseChart';
 import RecentExpenses from '@/components/Dashboard/RecentExpenses';
+import ExportButton from '@/components/Expenses/ExportButton';
 import { useExpenses } from '@/hooks/useExpenses';
 
 export default function Home() {
   const { 
     expenses, 
     isLoading,
-    getExpenseSummary
+    getExpenseSummary,
+    exportExpenses
   } = useExpenses();
   
   const [isClient, setIsClient] = useState(false);
@@ -36,9 +38,14 @@ export default function Home() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-        <p className="text-gray-500 dark:text-gray-400">Overview of your expenses</p>
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+          <p className="text-gray-500 dark:text-gray-400">Overview of your expenses</p>
+        </div>
+        <div className="mt-4 sm:mt-0">
+          <ExportButton onExport={exportExpenses} />
+        </div>
       </div>
 
       <SummaryCards summary={summary} />
