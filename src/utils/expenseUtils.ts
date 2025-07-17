@@ -138,15 +138,24 @@ export const getExpenseChartData = (expenses: Expense[]) => {
 // Export expenses to CSV
 export const exportToCSV = (expenses: Expense[]): string => {
   const headers = ['Date', 'Amount', 'Category', 'Description'];
+  
+  // Helper function to properly quote and escape CSV fields
+  const escapeField = (field: string): string => {
+    // Replace any double quotes with two double quotes (CSV standard for escaping quotes)
+    const escaped = field.replace(/"/g, '""');
+    // Wrap in quotes to handle commas and other special characters
+    return `"${escaped}"`;
+  };
+  
   const rows = expenses.map(expense => [
-    formatDate(expense.date),
-    expense.amount.toString(),
-    expense.category,
-    `"${expense.description.replace(/"/g, '""')}"`
+    escapeField(formatDate(expense.date)),
+    escapeField(expense.amount.toString()),
+    escapeField(expense.category),
+    escapeField(expense.description)
   ]);
   
   const csvContent = [
-    headers.join(','),
+    headers.map(escapeField).join(','),
     ...rows.map(row => row.join(','))
   ].join('\n');
   
