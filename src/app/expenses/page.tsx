@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import ExpenseForm from '@/components/Expenses/ExpenseForm';
 import ExpenseList from '@/components/Expenses/ExpenseList';
 import ExpenseFilter from '@/components/Expenses/ExpenseFilter';
-import ExportButton from '@/components/Expenses/ExportButton';
+import ExportButton from '@/components/Export/ExportButton';
 import { useExpenses } from '@/hooks/useExpenses';
 
 export default function ExpensesPage() {
@@ -47,7 +47,11 @@ export default function ExpensesPage() {
           <p className="text-gray-500 dark:text-gray-400">Manage your expenses</p>
         </div>
         <div className="mt-4 sm:mt-0">
-          <ExportButton onExport={exportExpenses} />
+          <ExportButton 
+            expenses={filteredExpenses} 
+            variant="outline" 
+            label="Advanced Export"
+          />
         </div>
       </div>
 

@@ -5,10 +5,9 @@ import {
   saveExpenses, 
   generateId, 
   filterExpenses as filterExpensesUtil,
-  calculateExpenseSummary,
-  exportToCSV,
-  downloadCSV
+  calculateExpenseSummary
 } from '@/utils/expenseUtils';
+import { exportExpenses as exportExpensesUtil } from '@/utils/exportUtils';
 
 export const useExpenses = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
@@ -107,10 +106,15 @@ export const useExpenses = () => {
     return calculateExpenseSummary(expenses);
   };
 
-  // Export expenses to CSV
+  // Legacy export function (for backward compatibility)
   const exportExpenses = () => {
-    const csvContent = exportToCSV(filteredExpenses.length > 0 ? filteredExpenses : expenses);
-    downloadCSV(csvContent, `expenses-${new Date().toISOString().split('T')[0]}.csv`);
+    exportExpensesUtil(filteredExpenses.length > 0 ? filteredExpenses : expenses, {
+      format: 'csv',
+      startDate: null,
+      endDate: null,
+      categories: null,
+      filename: `expenses-${new Date().toISOString().split('T')[0]}`
+    });
   };
 
   return {

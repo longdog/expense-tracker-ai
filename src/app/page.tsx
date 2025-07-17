@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react';
 import SummaryCards from '@/components/Dashboard/SummaryCards';
 import ExpenseChart from '@/components/Dashboard/ExpenseChart';
 import RecentExpenses from '@/components/Dashboard/RecentExpenses';
+import ExportButton from '@/components/Export/ExportButton';
 import { useExpenses } from '@/hooks/useExpenses';
 
 export default function Home() {
   const { 
     expenses, 
+    filteredExpenses,
     isLoading,
     getExpenseSummary
   } = useExpenses();
@@ -36,9 +38,18 @@ export default function Home() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-        <p className="text-gray-500 dark:text-gray-400">Overview of your expenses</p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+          <p className="text-gray-500 dark:text-gray-400">Overview of your expenses</p>
+        </div>
+        <div>
+          <ExportButton 
+            expenses={expenses} 
+            variant="outline" 
+            label="Advanced Export"
+          />
+        </div>
       </div>
 
       <SummaryCards summary={summary} />
