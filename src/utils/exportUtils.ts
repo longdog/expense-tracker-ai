@@ -1,7 +1,7 @@
 import { Expense, ExpenseCategory } from '@/types';
 import { formatCurrency, formatDate } from './expenseUtils';
 import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
+import autoTable from 'jspdf-autotable';
 
 export type ExportFormat = 'csv' | 'json' | 'pdf';
 
@@ -84,7 +84,7 @@ export const exportToPDF = (expenses: Expense[]): ArrayBuffer => {
   doc.text(`Number of Expenses: ${expenses.length}`, 14, 46);
   
   // Add the table
-  (doc as any).autoTable({
+  autoTable(doc, {
     head: [tableColumn],
     body: tableRows,
     startY: 55,
